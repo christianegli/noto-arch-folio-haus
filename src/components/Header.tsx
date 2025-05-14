@@ -2,7 +2,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const Header = () => {
+interface HeaderProps {
+  isTransparent?: boolean;
+}
+
+const Header = ({ isTransparent = false }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
@@ -23,19 +27,32 @@ const Header = () => {
     setIsMenuOpen(false);
   }, [location]);
 
+  const isTransparentHeader = isTransparent && !isScrolled && !isMenuOpen;
+
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "py-3 bg-background border-b" : "py-6"
+        isScrolled ? "py-3" : "py-6"
+      } ${
+        isTransparentHeader 
+          ? "bg-transparent" 
+          : "bg-background border-b"
       }`}
     >
       <div className="content-container flex justify-between items-center">
-        <Link to="/" className="font-playfair tracking-wider text-xl lg:text-2xl">
+        <Link 
+          to="/" 
+          className={`font-playfair tracking-wider text-xl lg:text-2xl ${
+            isTransparentHeader ? "text-white" : ""
+          }`}
+        >
           NOTO
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8 text-sm">
+        <nav className={`hidden md:flex space-x-8 text-sm ${
+          isTransparentHeader ? "text-white" : ""
+        }`}>
           <Link 
             to="/projects" 
             className={`hover-underline ${location.pathname.includes('/project') ? 'after:scale-x-100' : ''}`}
@@ -58,24 +75,32 @@ const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden focus:outline-none"
+          className={`md:hidden focus:outline-none ${
+            isTransparentHeader ? "text-white" : ""
+          }`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <span className="sr-only">Menu</span>
           <div className="w-6 flex flex-col gap-1.5">
             <span 
-              className={`block h-px bg-noto-black transition-transform ${
+              className={`block h-px transition-transform ${
                 isMenuOpen ? "w-6 -rotate-45 translate-y-1.5" : "w-6"
+              } ${
+                isTransparentHeader ? "bg-white" : "bg-noto-black"
               }`}
             ></span>
             <span 
-              className={`block h-px bg-noto-black transition-opacity ${
+              className={`block h-px transition-opacity ${
                 isMenuOpen ? "opacity-0" : "w-4 opacity-100"
+              } ${
+                isTransparentHeader ? "bg-white" : "bg-noto-black"
               }`}
             ></span>
             <span 
-              className={`block h-px bg-noto-black transition-transform ${
+              className={`block h-px transition-transform ${
                 isMenuOpen ? "w-6 rotate-45 -translate-y-1.5" : "w-5"
+              } ${
+                isTransparentHeader ? "bg-white" : "bg-noto-black"
               }`}
             ></span>
           </div>

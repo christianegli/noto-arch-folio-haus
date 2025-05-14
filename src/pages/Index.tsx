@@ -1,11 +1,11 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import ProjectCard from "../components/ProjectCard";
-import NewsItem from "../components/NewsItem";
 import { Project } from "../components/ProjectCard";
+import { AspectRatio } from "../components/ui/aspect-ratio";
+import ImageGridItem from "../components/ImageGridItem";
 
 const projects: Project[] = [
   {
@@ -34,90 +34,84 @@ const projects: Project[] = [
     category: "Residential",
     thumbnailUrl: "https://images.unsplash.com/photo-1496307653780-42ee777d4833?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
     description: "A mountain home that responds to its dramatic landscape with locally sourced materials and expansive glazing to frame spectacular views."
-  }
-];
-
-const newsItems = [
-  {
-    title: "Freiham, \"Making planning visible\" exhibition",
-    description: "The model of Freiham Nord, the new sustainable residential quarter to the north of Munich which has been taking shape over the last several years, will be on display at the Department of Urban Planning and Building Regulations.",
-    location: "Department of Urban Planning and Building Regulations, Blumenstrasse 28b, Exhibition rooms 17 and 18",
-    dates: "Open Monday to Friday, 7 am to 6 pm, until January 17, 2025",
-    link: "/news/freiham-exhibition"
   },
   {
-    title: "Sharing Lectures: Contemporary Architecture Practice",
-    description: "NOTO's principal architect will be presenting at the Sharing Lectures series, discussing our approach to sustainable urban development.",
-    location: "Berlin University of the Arts",
-    dates: "March 15, 2025, 7 pm",
-    link: "/news/sharing-lectures"
+    id: "brick-extension",
+    title: "Brick Extension",
+    location: "Hamburg",
+    year: "2022",
+    category: "Residential",
+    thumbnailUrl: "https://images.unsplash.com/photo-1460574283810-2aab119d8511?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+    description: "A minimal brick extension that complements the existing structure while adding contemporary living spaces."
+  },
+  {
+    id: "concrete-pavilion",
+    title: "Concrete Pavilion",
+    location: "Frankfurt",
+    year: "2021",
+    category: "Public",
+    thumbnailUrl: "https://images.unsplash.com/photo-1486718448742-163732cd1544?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+    description: "A sculptural concrete pavilion that serves as both a shelter and a landmark in a public park."
+  },
+  {
+    id: "glass-house",
+    title: "Glass House",
+    location: "Black Forest",
+    year: "2023",
+    category: "Residential",
+    thumbnailUrl: "https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+    description: "A transparent dwelling that blurs the boundaries between interior and exterior, allowing residents to live immersed in nature."
   }
 ];
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsLoaded(true);
+    
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const heroHeight = heroRef.current?.offsetHeight || 0;
+      
+      if (scrollPosition > heroHeight * 0.5) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
     <div className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
-      <Header />
+      <Header isTransparent={!scrolled} />
       
-      <main>
-        {/* Main Content Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-screen">
-          {/* Left Column - Featured Project */}
-          <div className="lg:col-span-2 h-screen relative overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80" 
-              alt="NOTO Architecture" 
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </div>
-          
-          {/* Right Column - News/Updates */}
-          <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center overflow-y-auto max-h-screen">
-            <div className="mb-12">
-              <h2 className="text-2xl font-playfair mb-6">News</h2>
-              
-              <div className="space-y-0">
-                {newsItems.map((item, index) => (
-                  <NewsItem
-                    key={index}
-                    title={item.title}
-                    description={item.description}
-                    location={item.location}
-                    dates={item.dates}
-                    link={item.link}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+      <main className="relative">
+        {/* Hero Image - Full Screen */}
+        <div 
+          ref={heroRef}
+          className="h-screen w-full relative overflow-hidden bg-noto-lightgray flex items-center justify-center"
+        >
+          <img 
+            src="https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80" 
+            alt="NOTO Architecture" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
         </div>
         
-        {/* Projects Section */}
-        <section className="py-16 lg:py-24">
-          <div className="px-8 md:px-12 lg:px-16">
-            <div className="flex justify-between items-end mb-12">
-              <h2 className="text-2xl font-playfair">Projects</h2>
-              <Link 
-                to="/projects" 
-                className="inline-flex items-center hover-underline"
-              >
-                All projects
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
-                  <path d="M5 12h14"></path>
-                  <path d="M12 5l7 7-7 7"></path>
-                </svg>
-              </Link>
-            </div>
-            
+        {/* Projects Grid */}
+        <section className="py-16 lg:py-24 bg-background">
+          <div className="content-container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
+              {projects.map((project) => (
+                <ImageGridItem key={project.id} project={project} />
               ))}
             </div>
           </div>
