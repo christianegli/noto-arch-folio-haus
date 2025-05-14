@@ -50,10 +50,10 @@ const About = () => {
       {/* Title section removed for a streamlined, single-column layout */}
       
       {/* Studio Philosophy */}
-      <section className="pt-32 pb-24">
+      <section className="pt-32 pb-16">
         <div className="max-w-3xl mx-auto px-4">
           <div className="space-y-6">
-            <h2 className="text-xl md:text-2xl">Our Approach</h2>
+            <h2 className="uppercase tracking-wide text-xl md:text-2xl">Our Approach</h2>
             <p className="text-noto-gray">
               NOTO was established in Berlin in 2010 with a commitment to creating architecture that responds 
               meaningfully to its context, serves those who inhabit it, and contributes positively to the 
@@ -74,9 +74,9 @@ const About = () => {
       </section>
       
       {/* Values */}
-      <section className="py-24 bg-noto-white">
+      <section className="py-16 bg-noto-white">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-xl md:text-2xl mb-12">Our Values</h2>
+          <h2 className="uppercase tracking-wide text-xl md:text-2xl mb-12">Our Values</h2>
           
           <div className="space-y-8">
             <div className="space-y-4">
@@ -137,9 +137,9 @@ const About = () => {
       </section>
       
       {/* Team */}
-      <section className="py-24">
+      <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-xl md:text-2xl mb-12">Our Team</h2>
+          <h2 className="uppercase tracking-wide text-xl md:text-2xl mb-12">Our Team</h2>
           
           <div className="space-y-12">
             {team.map((member, index) => (
@@ -167,9 +167,9 @@ const About = () => {
       </section>
       
       {/* Studio Space */}
-      <section className="py-24 bg-noto-white">
+      <section className="py-16 bg-noto-white">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-xl md:text-2xl mb-8">Our Studio</h2>
+          <h2 className="uppercase tracking-wide text-xl md:text-2xl mb-8">Our Studio</h2>
           <p className="text-noto-gray max-w-3xl mb-12">
             Our studio is located in a converted warehouse in Berlin's Mitte district. The open-plan space 
             reflects our collaborative working process and houses our design team, model workshop, and 

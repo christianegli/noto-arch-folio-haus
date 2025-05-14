@@ -41,11 +41,11 @@ const Header = ({ isTransparent = false }: HeaderProps) => {
       <div className="content-container flex justify-between items-center">
         <Link 
           to="/" 
-          className={`font-helvetica lowercase tracking-wider text-xl lg:text-2xl ${
+          className={`font-helvetica uppercase tracking-widest text-xl lg:text-2xl ${
             isTransparentHeader ? "text-white" : ""
           }`}
         >
-          noto
+          NOTO
         </Link>
 
         {/* Desktop Navigation */}
@@ -54,21 +54,21 @@ const Header = ({ isTransparent = false }: HeaderProps) => {
         }`}>
           <Link 
             to="/projects" 
-            className={`hover-underline ${location.pathname.includes('/project') ? 'after:scale-x-100' : ''}`}
+            className={`uppercase tracking-wide hover-underline ${location.pathname.includes('/project') ? 'after:scale-x-100' : ''}`}
           >
-            Projects
+            Projekte
           </Link>
           <Link 
             to="/about" 
-            className={`hover-underline ${location.pathname === '/about' ? 'after:scale-x-100' : ''}`}
+            className={`uppercase tracking-wide hover-underline ${location.pathname === '/about' ? 'after:scale-x-100' : ''}`}
           >
-            About
+            Über uns
           </Link>
           <Link 
             to="/contact" 
-            className={`hover-underline ${location.pathname === '/contact' ? 'after:scale-x-100' : ''}`}
+            className={`uppercase tracking-wide hover-underline ${location.pathname === '/contact' ? 'after:scale-x-100' : ''}`}
           >
-            Contact
+            Kontakt
           </Link>
         </nav>
 
@@ -79,7 +79,7 @@ const Header = ({ isTransparent = false }: HeaderProps) => {
           }`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          <span className="sr-only">Menu</span>
+          <span className="sr-only">Menü</span>
           <div className="w-6 flex flex-col gap-1.5">
             <span 
               className={`block h-px transition-transform ${
@@ -115,21 +115,21 @@ const Header = ({ isTransparent = false }: HeaderProps) => {
         <nav className="flex flex-col space-y-6 text-xl">
           <Link 
             to="/projects" 
-            className="py-2 border-b border-noto-lightgray"
+            className="uppercase tracking-wide py-2 border-b border-noto-lightgray"
           >
-            Projects
+            Projekte
           </Link>
           <Link 
             to="/about" 
-            className="py-2 border-b border-noto-lightgray"
+            className="uppercase tracking-wide py-2 border-b border-noto-lightgray"
           >
-            About
+            Über uns
           </Link>
           <Link 
             to="/contact" 
-            className="py-2 border-b border-noto-lightgray"
+            className="uppercase tracking-wide py-2 border-b border-noto-lightgray"
           >
-            Contact
+            Kontakt
           </Link>
         </nav>
       </div>

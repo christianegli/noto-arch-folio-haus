@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
@@ -67,19 +66,20 @@ const projects: Project[] = [
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showHero, setShowHero] = useState(true);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsLoaded(true);
     
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
+      const scrollY = window.scrollY;
       const heroHeight = heroRef.current?.offsetHeight || 0;
-      
-      if (scrollPosition > heroHeight * 0.5) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
+      // Toggle header transparency at midpoint
+      setScrolled(scrollY > heroHeight * 0.5);
+      // Hide hero permanently once it has scrolled out of view
+      if (scrollY > heroHeight && showHero) {
+        setShowHero(false);
       }
     };
 
@@ -91,10 +91,11 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
-      <Header isTransparent={!scrolled} />
+      <Header isTransparent={!scrolled && showHero} />
       
       <main className="relative">
-        {/* Hero Image - Full Screen */}
+        {/* Hero Image - Full Screen (hides when scrolled past) */}
+        {showHero && (
         <div 
           ref={heroRef}
           className="h-screen w-full relative overflow-hidden bg-noto-lightgray flex items-center justify-center"
@@ -105,9 +106,10 @@ const Index = () => {
             className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
+        )}
         
-        {/* Irregular Projects Grid - 3 columns with consistent padding */}
-        <section className="py-16 lg:py-24 bg-background">
+        {/* Irregular Projects Grid - space added above tiles */}
+        <section className="pt-24 lg:pt-32 pb-12 lg:pb-16 bg-background">
           <div className="content-container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-6">
               {/* First column */}

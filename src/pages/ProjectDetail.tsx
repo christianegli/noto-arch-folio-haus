@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "../components/Header";
@@ -174,26 +173,8 @@ const ProjectDetail = () => {
     <main className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
       <Header />
       
-      <section className="pt-32 pb-12">
-        <div className="content-container">
-          <Link 
-            to="/projects" 
-            className="inline-flex items-center text-sm text-noto-gray hover:text-noto-black transition-colors mb-8"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mr-2 rotate-180">
-              <path d="M5 12h14"></path>
-              <path d="M12 5l7 7-7 7"></path>
-            </svg>
-            Back to Projects
-          </Link>
-          
-          <h1 className="text-3xl md:text-4xl lg:text-5xl mb-4">{project.title}</h1>
-          <p className="text-noto-gray mb-12">{project.location}, {project.year}</p>
-        </div>
-      </section>
-      
-      {/* Image Gallery */}
-      <section className="mb-24">
+      {/* Image Gallery (now starts below header) */}
+      <section className="pt-32 mb-24">
         <div className="content-container">
           <div className="relative aspect-[16/9] overflow-hidden bg-noto-lightgray mb-4">
             <img 
@@ -243,9 +224,27 @@ const ProjectDetail = () => {
           </div>
         </div>
       </section>
+      {/* Project Info (moved below gallery) */}
+      <section className="pb-12">
+        <div className="content-container">
+          <Link 
+            to="/projects" 
+            className="inline-flex items-center text-sm text-noto-gray hover:text-noto-black transition-colors mb-8"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mr-2 rotate-180">
+              <path d="M5 12h14"></path>
+              <path d="M12 5l7 7-7 7"></path>
+            </svg>
+            BACK TO PROJEKTE
+          </Link>
+
+          <h1 className="uppercase tracking-wide text-3xl md:text-4xl lg:text-5xl mb-4">{project.title}</h1>
+          <p className="text-noto-gray mb-12">{project.location}, {project.year}</p>
+        </div>
+      </section>
       
       {/* Project Details */}
-      <section className="mb-24">
+      <section className="mb-32">
         <div className="content-container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-6">
@@ -313,33 +312,7 @@ const ProjectDetail = () => {
         </div>
       </section>
       
-      {/* Related Projects */}
-      <section className="py-24 bg-noto-white">
-        <div className="content-container">
-          <h2 className="text-xl md:text-2xl mb-12">Related Projects</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
-            {projects
-              .filter(p => p.category === project.category && p.id !== project.id)
-              .slice(0, 3)
-              .map((relatedProject, index) => (
-                <div key={relatedProject.id} className="animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
-                  <Link to={`/project/${relatedProject.id}`} className="block group">
-                    <div className="aspect-[4/3] overflow-hidden bg-noto-lightgray mb-4">
-                      <img 
-                        src={relatedProject.thumbnailUrl} 
-                        alt={relatedProject.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 className="font-playfair text-lg">{relatedProject.title}</h3>
-                    <p className="text-noto-gray text-sm">{relatedProject.location}, {relatedProject.year}</p>
-                  </Link>
-                </div>
-              ))}
-          </div>
-        </div>
-      </section>
+      {/* Related Projects section removed as requested */}
       
       <Footer />
     </main>

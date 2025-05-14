@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProjectCard, { Project } from "../components/ProjectCard";
+import ImageGridItem from "../components/ImageGridItem";
 
 const projects: Project[] = [
   {
@@ -81,6 +81,14 @@ const projects: Project[] = [
 
 type Category = "All" | "Residential" | "Commercial" | "Public";
 
+// Mapping for filter label translations
+const categoryLabels: Record<Category, string> = {
+  All: 'Alle',
+  Residential: 'Wohnen',
+  Commercial: 'Gewerbe',
+  Public: 'Öffentlich'
+};
+
 const Projects = () => {
   const [filter, setFilter] = useState<Category>("All");
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
@@ -100,13 +108,30 @@ const Projects = () => {
     setIsLoaded(true);
   }, []);
 
+  // Map projects to include aspect ratios as per homepage pattern
+  const ratioMap: Record<number, 'square' | 'portrait' | 'landscape'> = {
+    0: 'portrait',
+    1: 'landscape',
+    2: 'square',
+    3: 'square',
+    4: 'portrait',
+    5: 'landscape'
+  };
+  type ProjectItem = { project: Project; index: number; aspectRatio: 'square' | 'portrait' | 'landscape' };
+  const items: ProjectItem[] = filteredProjects.map((project, index) => ({ project, index, aspectRatio: ratioMap[index] ?? 'square' }));
+  // Distribute into three columns
+  const columns: ProjectItem[][] = [[], [], []];
+  items.forEach((item, i) => {
+    columns[i % 3].push(item);
+  });
+
   return (
     <main className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
       <Header />
       
-      <section className="pt-32 pb-24 lg:pt-40 lg:pb-32">
+      <section className="pt-24 pb-16 lg:pt-32 lg:pb-24">
         <div className="content-container">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl mb-12">Projects</h1>
+          <h1 className="uppercase tracking-wide text-3xl md:text-4xl lg:text-5xl mb-12">Projekte</h1>
           
           {/* Filter */}
           <div className="mb-16 border-b border-noto-lightgray">
@@ -120,22 +145,30 @@ const Projects = () => {
                   `}
                   onClick={() => setFilter(category)}
                 >
-                  {category}
+                  {categoryLabels[category]}
                 </button>
               ))}
             </div>
           </div>
           
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
-            {filteredProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+          {/* Projects Grid (irregular layout matching homepage) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-6">
+            {columns.map((column, colIndex) => (
+              <div key={colIndex} className="flex flex-col gap-4 md:gap-6 lg:gap-6">
+                {column.map(({ project, aspectRatio }) => (
+                  <ImageGridItem
+                    key={project.id}
+                    project={project}
+                    aspectRatio={aspectRatio}
+                  />
+                ))}
+              </div>
             ))}
           </div>
           
           {filteredProjects.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-noto-gray">No projects found in this category.</p>
+              <p className="text-noto-gray">Keine Projekte in dieser Kategorie gefunden.</p>
             </div>
           )}
         </div>
