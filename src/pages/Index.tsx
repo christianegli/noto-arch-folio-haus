@@ -106,38 +106,26 @@ const Index = () => {
           />
         </div>
         
-        {/* Irregular Projects Grid - 3 columns */}
+        {/* Irregular Projects Grid - 3 columns with consistent padding */}
         <section className="py-16 lg:py-24 bg-background">
           <div className="content-container">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-              {/* First project - portrait */}
-              <div className="lg:col-span-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-6">
+              {/* First column */}
+              <div className="flex flex-col gap-4 md:gap-6 lg:gap-6">
                 <ImageGridItem project={projects[0]} aspectRatio="portrait" />
+                <ImageGridItem project={projects[3]} aspectRatio="square" />
               </div>
               
-              {/* Second project - landscape, spans 2 columns */}
-              <div className="lg:col-span-2">
+              {/* Second column */}
+              <div className="flex flex-col gap-4 md:gap-6 lg:gap-6">
                 <ImageGridItem project={projects[1]} aspectRatio="landscape" />
-              </div>
-              
-              {/* Third project - square */}
-              <div className="lg:col-span-1">
-                <ImageGridItem project={projects[2]} aspectRatio="square" />
-              </div>
-              
-              {/* Fourth project - landscape */}
-              <div className="lg:col-span-2">
-                <ImageGridItem project={projects[3]} aspectRatio="landscape" />
-              </div>
-              
-              {/* Fifth project - portrait */}
-              <div className="lg:col-span-1">
                 <ImageGridItem project={projects[4]} aspectRatio="portrait" />
               </div>
               
-              {/* Sixth project - square, spans 2 columns */}
-              <div className="lg:col-span-2">
-                <ImageGridItem project={projects[5]} aspectRatio="square" />
+              {/* Third column */}
+              <div className="flex flex-col gap-4 md:gap-6 lg:gap-6">
+                <ImageGridItem project={projects[2]} aspectRatio="square" />
+                <ImageGridItem project={projects[5]} aspectRatio="landscape" />
               </div>
             </div>
           </div>
