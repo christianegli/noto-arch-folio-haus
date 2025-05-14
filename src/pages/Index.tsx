@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import FeaturedProject from "../components/FeaturedProject";
 import ProjectCard from "../components/ProjectCard";
+import NewsItem from "../components/NewsItem";
 import { Project } from "../components/ProjectCard";
 
 const projects: Project[] = [
@@ -34,24 +34,23 @@ const projects: Project[] = [
     category: "Residential",
     thumbnailUrl: "https://images.unsplash.com/photo-1496307653780-42ee777d4833?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
     description: "A mountain home that responds to its dramatic landscape with locally sourced materials and expansive glazing to frame spectacular views."
+  }
+];
+
+const newsItems = [
+  {
+    title: "Freiham, \"Making planning visible\" exhibition",
+    description: "The model of Freiham Nord, the new sustainable residential quarter to the north of Munich which has been taking shape over the last several years, will be on display at the Department of Urban Planning and Building Regulations.",
+    location: "Department of Urban Planning and Building Regulations, Blumenstrasse 28b, Exhibition rooms 17 and 18",
+    dates: "Open Monday to Friday, 7 am to 6 pm, until January 17, 2025",
+    link: "/news/freiham-exhibition"
   },
   {
-    id: "office-complex",
-    title: "Office Complex",
-    location: "Frankfurt",
-    year: "2023",
-    category: "Commercial",
-    thumbnailUrl: "https://images.unsplash.com/photo-1431576901776-e539bd916ba2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A sustainable office building that prioritizes employee wellbeing with generous green spaces, natural ventilation and adaptable workspaces."
-  },
-  {
-    id: "riverside-apartments",
-    title: "Riverside Apartments",
-    location: "Hamburg",
-    year: "2022",
-    category: "Residential",
-    thumbnailUrl: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A residential complex that embraces its waterfront setting with terraced apartments, communal gardens and a focus on social interaction."
+    title: "Sharing Lectures: Contemporary Architecture Practice",
+    description: "NOTO's principal architect will be presenting at the Sharing Lectures series, discussing our approach to sustainable urban development.",
+    location: "Berlin University of the Arts",
+    dates: "March 15, 2025, 7 pm",
+    link: "/news/sharing-lectures"
   }
 ];
 
@@ -63,135 +62,70 @@ const Index = () => {
   }, []);
 
   return (
-    <main className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
+    <div className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
       <Header />
       
-      {/* Hero Section */}
-      <section className="w-full h-screen relative overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1460574283810-2aab119d8511?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80" 
-          alt="NOTO Architecture" 
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-        <div className="absolute inset-0 flex items-center justify-center text-white content-container">
-          <div className="max-w-3xl text-center">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl mb-6 animate-fade-in">
-              Thoughtful Architecture for Modern Living
-            </h1>
-            <p className="text-lg md:text-xl opacity-90 mb-8 animate-fade-in" style={{ animationDelay: "200ms" }}>
-              NOTO creates spaces that balance form, function and environmental responsibility
-            </p>
-            <Link 
-              to="/projects" 
-              className="inline-block border border-white px-6 py-3 hover:bg-white hover:text-black transition-colors animate-fade-in"
-              style={{ animationDelay: "400ms" }}
-            >
-              Explore Our Work
-            </Link>
-          </div>
-        </div>
-      </section>
-      
-      {/* About Intro Section */}
-      <section className="py-24 lg:py-32 bg-noto-white">
-        <div className="content-container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl mb-8">
-              Crafting Spaces That Connect with People and Place
-            </h2>
-            <p className="text-noto-gray mb-6">
-              NOTO is a Berlin-based architecture practice founded in 2010. We approach 
-              each project with a commitment to understanding its unique context, 
-              creating spaces that respond sensitively to their environment while 
-              meeting the needs of those who inhabit them.
-            </p>
-            <Link 
-              to="/about" 
-              className="inline-flex items-center font-medium hover-underline"
-            >
-              Learn more about our studio
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
-      
-      {/* Featured Project Section */}
-      <section className="py-24 lg:py-32">
-        <div className="content-container">
-          <h2 className="text-2xl md:text-3xl mb-16">Featured Project</h2>
-          <FeaturedProject project={projects[0]} />
-        </div>
-      </section>
-      
-      {/* Recent Projects Grid */}
-      <section className="py-24 lg:py-32 bg-noto-white">
-        <div className="content-container">
-          <div className="flex justify-between items-end mb-16">
-            <h2 className="text-2xl md:text-3xl">Recent Projects</h2>
-            <Link 
-              to="/projects" 
-              className="inline-flex items-center font-medium hover-underline"
-            >
-              View all projects
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
-              </svg>
-            </Link>
+      <main>
+        {/* Main Content Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-screen">
+          {/* Left Column - Featured Project */}
+          <div className="lg:col-span-2 h-screen relative overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80" 
+              alt="NOTO Architecture" 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
-            {projects.slice(1).map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
-            ))}
+          {/* Right Column - News/Updates */}
+          <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center overflow-y-auto max-h-screen">
+            <div className="mb-12">
+              <h2 className="text-2xl font-playfair mb-6">News</h2>
+              
+              <div className="space-y-0">
+                {newsItems.map((item, index) => (
+                  <NewsItem
+                    key={index}
+                    title={item.title}
+                    description={item.description}
+                    location={item.location}
+                    dates={item.dates}
+                    link={item.link}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </section>
-      
-      {/* Approach Section */}
-      <section className="py-24 lg:py-32">
-        <div className="content-container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="aspect-[4/3] overflow-hidden bg-noto-lightgray">
-              <img 
-                src="https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" 
-                alt="NOTO Design Process" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="space-y-6">
-              <h2 className="text-2xl md:text-3xl">Our Approach</h2>
-              <p className="text-noto-gray">
-                We believe architecture should respond to both the physical and cultural context in which it exists. 
-                Our designs emerge from a deep engagement with site, careful material selection, and thoughtful 
-                consideration of how spaces will be experienced.
-              </p>
-              <p className="text-noto-gray">
-                Sustainability is integral to our practice. We seek to create buildings that minimize environmental 
-                impact through passive design strategies, energy efficiency, and responsible material choices.
-              </p>
+        
+        {/* Projects Section */}
+        <section className="py-16 lg:py-24">
+          <div className="px-8 md:px-12 lg:px-16">
+            <div className="flex justify-between items-end mb-12">
+              <h2 className="text-2xl font-playfair">Projects</h2>
               <Link 
-                to="/about" 
-                className="inline-flex items-center font-medium hover-underline mt-4 block"
+                to="/projects" 
+                className="inline-flex items-center hover-underline"
               >
-                Read more about our philosophy
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
+                All projects
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
                   <path d="M5 12h14"></path>
                   <path d="M12 5l7 7-7 7"></path>
                 </svg>
               </Link>
             </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
      
       <Footer />
-    </main>
+    </div>
   );
 };
 

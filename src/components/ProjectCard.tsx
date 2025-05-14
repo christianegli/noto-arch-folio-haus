@@ -20,12 +20,12 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
   return (
     <Link 
       to={`/project/${project.id}`} 
-      className="group block animate-fade-in" 
+      className="group block" 
       style={{
         animationDelay: `${index * 100}ms`
       }}
     >
-      <div className="aspect-[4/3] overflow-hidden bg-noto-lightgray mb-4">
+      <div className="aspect-square overflow-hidden bg-noto-lightgray mb-4">
         <img 
           src={project.thumbnailUrl} 
           alt={project.title} 
@@ -35,7 +35,6 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
       <div className="space-y-1">
         <h3 className="font-playfair text-lg">{project.title}</h3>
         <p className="text-noto-gray text-sm">{project.location}, {project.year}</p>
-        <p className="text-xs uppercase tracking-wider text-noto-gray">{project.category}</p>
       </div>
     </Link>
   );
