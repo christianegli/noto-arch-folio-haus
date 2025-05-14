@@ -22,6 +22,7 @@ export default {
 			fontFamily: {
 				playfair: ['Playfair Display', 'serif'],
 				sans: ['Inter', 'sans-serif'],
+				helvetica: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
