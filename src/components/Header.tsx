@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -42,11 +41,11 @@ const Header = ({ isTransparent = false }: HeaderProps) => {
       <div className="content-container flex justify-between items-center">
         <Link 
           to="/" 
-          className={`font-playfair tracking-wider text-xl lg:text-2xl ${
+          className={`font-helvetica lowercase tracking-wider text-xl lg:text-2xl ${
             isTransparentHeader ? "text-white" : ""
           }`}
         >
-          NOTO
+          noto
         </Link>
 
         {/* Desktop Navigation */}
