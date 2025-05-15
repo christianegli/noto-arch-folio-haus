@@ -62,7 +62,7 @@ const Header = ({ isTransparent = false }: HeaderProps) => {
             to="/about" 
             className={`uppercase tracking-wide hover-underline ${location.pathname === '/about' ? 'after:scale-x-100' : ''}`}
           >
-            Über uns
+            Info
           </Link>
           <Link 
             to="/contact" 
@@ -123,7 +123,7 @@ const Header = ({ isTransparent = false }: HeaderProps) => {
             to="/about" 
             className="uppercase tracking-wide py-2 border-b border-noto-lightgray"
           >
-            Über uns
+            Info
           </Link>
           <Link 
             to="/contact" 

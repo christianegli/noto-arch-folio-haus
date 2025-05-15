@@ -80,8 +80,8 @@ const Contact = () => {
                   <h3 className="font-medium">Besuchen Sie uns</h3>
                   <address className="not-italic text-noto-gray">
                     <p>NOTO Architektur</p>
-                    <p>Torstraße 140</p>
-                    <p>10119 Berlin</p>
+                    <p>Thedestraße 2</p>
+                    <p>22767 Hamburg</p>
                     <p>Germany</p>
                   </address>
                 </div>
@@ -89,10 +89,10 @@ const Contact = () => {
                 <div className="space-y-1">
                   <h3 className="font-medium">Kontakt</h3>
                   <p className="text-noto-gray">
-                    <a href="tel:+493012345678" className="hover-underline">+49 30 123 45 678</a>
+                    <a href="tel:+04034967040" className="hover-underline">+040 34967040</a>
                   </p>
                   <p className="text-noto-gray">
-                    <a href="mailto:info@noto-architektur.de" className="hover-underline">info@noto-architektur.de</a>
+                    <a href="mailto:mail@bueronoto.de" className="hover-underline">mail@bueronoto.de</a>
                   </p>
                 </div>
                 
@@ -109,18 +109,6 @@ const Contact = () => {
                       Pinterest
                     </a>
                   </div>
-                </div>
-              </div>
-              
-              <div className="pt-8">
-                <h3 className="font-medium mb-4">Öffnungszeiten</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="text-noto-gray">Montag — Freitag:</div>
-                  <div>9:00 — 18:00</div>
-                  <div className="text-noto-gray">Samstag:</div>
-                  <div>Nach Vereinbarung</div>
-                  <div className="text-noto-gray">Sonntag:</div>
-                  <div>Geschlossen</div>
                 </div>
               </div>
             </div>
@@ -216,13 +204,13 @@ const Contact = () => {
       <section className="pb-16">
         <div className="content-container">
           <div className="aspect-[16/9] bg-noto-lightgray w-full">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2427.6868555216393!2d13.397493115822259!3d52.528932479814695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a851e3b9367145%3A0x81440a3919409!2sTorstra%C3%9Fe%20140%2C%2010119%20Berlin%2C%20Germany!5e0!3m2!1sen!2sus!4v1653467026718!5m2!1sen!2sus" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={false} 
-              loading="lazy" 
+            <iframe
+              src="https://maps.google.com/maps?q=Thedestra%C3%9Fe+2+22767+Hamburg&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={false}
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="Standort des NOTO Architekturbüros"
             ></iframe>

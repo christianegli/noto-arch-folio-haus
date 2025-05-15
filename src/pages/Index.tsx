@@ -89,6 +89,24 @@ const Index = () => {
     };
   }, []);
 
+  // Double and distribute projects for homepage grid
+  const pattern = ['portrait','landscape','square','square','portrait','landscape'] as const;
+  type Aspect = typeof pattern[number];
+  const items = [...projects, ...projects].map((project, index) => ({
+    project,
+    aspectRatio: pattern[index % pattern.length] as Aspect,
+  }));
+
+  // Greedy distribution: balance columns by approximate height
+  const weightLookup: Record<Aspect, number> = { portrait: 1.5, square: 1, landscape: 0.75 };
+  const columnHeights: number[] = [0, 0, 0];
+  const columns: { project: Project; aspectRatio: Aspect }[][] = [[], [], []];
+  items.forEach(item => {
+    const shortestIndex = columnHeights.indexOf(Math.min(...columnHeights));
+    columns[shortestIndex].push(item);
+    columnHeights[shortestIndex] += weightLookup[item.aspectRatio];
+  });
+
   return (
     <div className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
       <Header isTransparent={!scrolled && showHero} />
@@ -112,23 +130,13 @@ const Index = () => {
         <section className="pt-24 lg:pt-32 pb-12 lg:pb-16 bg-background">
           <div className="content-container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-6">
-              {/* First column */}
-              <div className="flex flex-col gap-4 md:gap-6 lg:gap-6">
-                <ImageGridItem project={projects[0]} aspectRatio="portrait" />
-                <ImageGridItem project={projects[3]} aspectRatio="square" />
-              </div>
-              
-              {/* Second column */}
-              <div className="flex flex-col gap-4 md:gap-6 lg:gap-6">
-                <ImageGridItem project={projects[1]} aspectRatio="landscape" />
-                <ImageGridItem project={projects[4]} aspectRatio="portrait" />
-              </div>
-              
-              {/* Third column */}
-              <div className="flex flex-col gap-4 md:gap-6 lg:gap-6">
-                <ImageGridItem project={projects[2]} aspectRatio="square" />
-                <ImageGridItem project={projects[5]} aspectRatio="landscape" />
-              </div>
+              {columns.map((col, colIndex) => (
+                <div key={colIndex} className="flex flex-col gap-4 md:gap-6 lg:gap-6">
+                  {col.map(({ project, aspectRatio }, idx) => (
+                    <ImageGridItem key={`${project.id}-${idx}`} project={project} aspectRatio={aspectRatio} />
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </section>

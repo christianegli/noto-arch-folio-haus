@@ -18,17 +18,17 @@ const Footer = () => {
           <div>
             <h4 className="font-sans font-medium text-sm uppercase tracking-wider mb-4">Kontakt</h4>
             <address className="not-italic text-sm space-y-2">
-              <p>Torstraße 140</p>
-              <p>10119 Berlin</p>
+              <p>Thedestraße 2</p>
+              <p>22767 Hamburg</p>
               <p>Germany</p>
               <p className="mt-4">
-                <a href="mailto:info@noto-architektur.de" className="hover-underline">
-                  info@noto-architektur.de
+                <a href="mailto:mail@bueronoto.de" className="hover-underline">
+                  mail@bueronoto.de
                 </a>
               </p>
               <p>
-                <a href="tel:+493012345678" className="hover-underline">
-                  +49 30 123 45 678
+                <a href="tel:+04034967040" className="hover-underline">
+                  +040 34967040
                 </a>
               </p>
             </address>
