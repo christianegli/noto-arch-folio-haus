@@ -41,7 +41,7 @@ const Header = ({ isTransparent = false }: HeaderProps) => {
       <div className="content-container flex justify-between items-center">
         <Link 
           to="/" 
-          className={`font-helvetica uppercase tracking-widest text-xl lg:text-2xl ${
+          className={`font-helvetica font-bold uppercase tracking-widest text-xl lg:text-2xl ${
             isTransparentHeader ? "text-white" : ""
           }`}
         >
