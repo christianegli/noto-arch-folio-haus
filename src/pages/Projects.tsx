@@ -3,81 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProjectCard, { Project } from "../components/ProjectCard";
 import ImageGridItem from "../components/ImageGridItem";
-
-const projects: Project[] = [
-  {
-    id: "urban-townhouse",
-    title: "Urban Townhouse",
-    location: "Berlin",
-    year: "2023",
-    category: "Residential",
-    thumbnailUrl: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A contemporary townhouse that balances urban living with private spaces, featuring sustainable materials and innovative use of natural light."
-  },
-  {
-    id: "cultural-pavilion",
-    title: "Cultural Pavilion",
-    location: "Munich",
-    year: "2022",
-    category: "Public",
-    thumbnailUrl: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A public cultural space designed to accommodate exhibitions, performances and community events with flexible interior arrangements."
-  },
-  {
-    id: "alpine-retreat",
-    title: "Alpine Retreat",
-    location: "Bavaria",
-    year: "2021",
-    category: "Residential",
-    thumbnailUrl: "https://images.unsplash.com/photo-1496307653780-42ee777d4833?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A mountain home that responds to its dramatic landscape with locally sourced materials and expansive glazing to frame spectacular views."
-  },
-  {
-    id: "office-complex",
-    title: "Office Complex",
-    location: "Frankfurt",
-    year: "2023",
-    category: "Commercial",
-    thumbnailUrl: "https://images.unsplash.com/photo-1431576901776-e539bd916ba2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A sustainable office building that prioritizes employee wellbeing with generous green spaces, natural ventilation and adaptable workspaces."
-  },
-  {
-    id: "riverside-apartments",
-    title: "Riverside Apartments",
-    location: "Hamburg",
-    year: "2022",
-    category: "Residential",
-    thumbnailUrl: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A residential complex that embraces its waterfront setting with terraced apartments, communal gardens and a focus on social interaction."
-  },
-  {
-    id: "community-library",
-    title: "Community Library",
-    location: "Dresden",
-    year: "2021",
-    category: "Public",
-    thumbnailUrl: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A contemporary library that serves as a learning hub and community gathering space with flexible interiors that can be reconfigured for diverse events."
-  },
-  {
-    id: "waterfront-restaurant",
-    title: "Waterfront Restaurant",
-    location: "Kiel",
-    year: "2022",
-    category: "Commercial",
-    thumbnailUrl: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A dining experience that connects patrons with coastal views through floor-to-ceiling windows and outdoor terraces that extend over the water."
-  },
-  {
-    id: "forest-cabin",
-    title: "Forest Cabin",
-    location: "Black Forest",
-    year: "2020",
-    category: "Residential",
-    thumbnailUrl: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "A minimal retreat nestled among trees, utilizing sustainable timber construction and careful orientation to maximize natural light while minimizing disturbance to the surrounding forest."
-  }
-];
+import { getProjects, getStrapiMedia } from "../lib/strapiClient";
 
 type Category = "All" | "Residential" | "Commercial" | "Public";
 
@@ -90,19 +16,37 @@ const categoryLabels: Record<Category, string> = {
 };
 
 const Projects = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [filter, setFilter] = useState<Category>("All");
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const categories: Category[] = ["All", "Residential", "Commercial", "Public"];
 
   useEffect(() => {
+    getProjects()
+      .then(data => {
+        const mapped = data.map(p => ({
+          id: p.attributes.slug,
+          title: p.attributes.title,
+          location: p.attributes.location ?? "",
+          year: p.attributes.year ?? "",
+          category: p.attributes.category ?? "",
+          description: p.attributes.description ?? "",
+          thumbnailUrl: getStrapiMedia(p.attributes.thumbnail),
+        }));
+        setProjects(mapped);
+      })
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
     if (filter === "All") {
       setFilteredProjects(projects);
     } else {
-      setFilteredProjects(projects.filter(project => project.category === filter));
+      setFilteredProjects(projects.filter(proj => proj.category === filter));
     }
-  }, [filter]);
+  }, [filter, projects]);
 
   useEffect(() => {
     setIsLoaded(true);

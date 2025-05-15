@@ -147,9 +147,9 @@ const ProjectDetail = () => {
       <main className="min-h-screen">
         <Header />
         <div className="content-container pt-32 pb-24">
-          <p>Project not found.</p>
+          <p>Projekt nicht gefunden.</p>
           <Link to="/projects" className="text-noto-gray hover-underline">
-            Return to projects
+            Zurück zu Projekten
           </Link>
         </div>
         <Footer />
@@ -179,14 +179,14 @@ const ProjectDetail = () => {
           <div className="relative aspect-[16/9] overflow-hidden bg-noto-lightgray mb-4">
             <img 
               src={details.images[currentImageIndex]} 
-              alt={`${project.title} - Image ${currentImageIndex + 1}`} 
+              alt={`${project.title} - Bild ${currentImageIndex + 1}`} 
               className="w-full h-full object-cover animate-fade-in"
             />
             
             <button 
               onClick={prevImage}
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 w-12 h-12 flex items-center justify-center transition-all duration-300"
-              aria-label="Previous image"
+              aria-label="Vorheriges Bild"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M15 18l-6-6 6-6"></path>
@@ -196,7 +196,7 @@ const ProjectDetail = () => {
             <button 
               onClick={nextImage}
               className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 w-12 h-12 flex items-center justify-center transition-all duration-300"
-              aria-label="Next image"
+              aria-label="Nächstes Bild"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 18l6-6-6-6"></path>
@@ -204,11 +204,7 @@ const ProjectDetail = () => {
             </button>
           </div>
           
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-noto-gray">
-              Image {currentImageIndex + 1} of {details.images.length}
-            </p>
-            
+          <div className="flex justify-center items-center">
             <div className="flex space-x-1">
               {details.images.map((_, index: number) => (
                 <button
@@ -217,7 +213,7 @@ const ProjectDetail = () => {
                     currentImageIndex === index ? "bg-noto-black" : "bg-noto-lightgray"
                   }`}
                   onClick={() => setCurrentImageIndex(index)}
-                  aria-label={`Go to image ${index + 1}`}
+                  aria-label={`Bild ${index + 1} anzeigen`}
                 />
               ))}
             </div>
@@ -235,85 +231,16 @@ const ProjectDetail = () => {
               <path d="M5 12h14"></path>
               <path d="M12 5l7 7-7 7"></path>
             </svg>
-            BACK TO PROJEKTE
+            ZURÜCK ZU PROJEKTEN
           </Link>
 
-          <h1 className="uppercase tracking-wide text-3xl md:text-4xl lg:text-5xl mb-4">{project.title}</h1>
-          <p className="text-noto-gray mb-12">{project.location}, {project.year}</p>
+          <h1 className="font-helvetica font-bold uppercase tracking-wide text-3xl md:text-4xl lg:text-5xl mb-4">{project.title}</h1>
+          <p className="text-noto-gray mb-4">{project.location}, {project.year}</p>
+          <p className="text-noto-gray mb-12">{details.fullDescription}</p>
         </div>
       </section>
       
-      {/* Project Details */}
-      <section className="mb-32">
-        <div className="content-container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2 space-y-6">
-              <h2 className="text-xl md:text-2xl mb-4">About the Project</h2>
-              <p className="text-noto-gray">{details.fullDescription}</p>
-            </div>
-            
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-sm font-medium uppercase tracking-wider mb-2">Project Details</h3>
-                <ul className="space-y-3">
-                  <li className="flex justify-between">
-                    <span className="text-noto-gray">Client</span>
-                    <span>{details.client}</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-noto-gray">Location</span>
-                    <span>{project.location}</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-noto-gray">Year</span>
-                    <span>{project.year}</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-noto-gray">Status</span>
-                    <span>{details.status}</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-noto-gray">Area</span>
-                    <span>{details.area}</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium uppercase tracking-wider mb-2">Services</h3>
-                <ul className="space-y-1">
-                  {details.services.map((service: string, index: number) => (
-                    <li key={index}>{service}</li>
-                  ))}
-                </ul>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium uppercase tracking-wider mb-2">Collaborators</h3>
-                <ul className="space-y-1">
-                  {details.collaborators.map((collaborator: string, index: number) => (
-                    <li key={index}>{collaborator}</li>
-                  ))}
-                </ul>
-              </div>
-              
-              {details.awards.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-medium uppercase tracking-wider mb-2">Awards</h3>
-                  <ul className="space-y-1">
-                    {details.awards.map((award: string, index: number) => (
-                      <li key={index}>{award}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Related Projects section removed as requested */}
-      
+      {/* Project Details section removed */}
       <Footer />
     </main>
   );
