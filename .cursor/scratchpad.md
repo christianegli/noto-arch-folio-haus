@@ -124,6 +124,8 @@ Furthermore, the user now wants the front-end website to pull ALL content (text 
 - [ ] Write tests for API client.
 - [ ] Update env handling & docs.
 - [ ] Manual QA of live editing.
+- [ ] Manual QA of live editing.
+  - [x] Checkpoint: saved current working state after navigation, contact, and map updates
 
 # Executor's Feedback or Assistance Requests
 
