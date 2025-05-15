@@ -1,47 +1,55 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { getTeam, getStrapiMedia } from "../lib/strapiClient";
 
-interface TeamMember {
+// Define a client-side TeamMember type
+type TeamMember = {
+  id: number;
   name: string;
   role: string;
-  bio: string;
-  imageUrl: string;
-}
+  bio: string | null;
+  photoUrl: string | null;
+};
 
-const team: TeamMember[] = [
-  {
-    name: "Anna Schmidt",
-    role: "Founding Partner",
-    bio: "Anna founded NOTO Architecture in 2010 after working with leading firms in Berlin and London. She holds a Master's degree from TU Berlin and has lectured at various architecture schools across Europe. Her work focuses on creating spaces that respond sensitively to context while pushing boundaries of material expression.",
-    imageUrl: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    name: "Thomas Weber",
-    role: "Partner",
-    bio: "Thomas joined NOTO in 2012 and became partner in 2016. His background in both architecture and engineering brings technical expertise to the practice's design process. He has led many of the firm's most complex projects and has a particular interest in sustainable building technologies.",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    name: "Maria Krause",
-    role: "Design Director",
-    bio: "Maria has been with NOTO since 2014. With a background in both architecture and interior design, she brings a holistic approach to spatial design. Her work is characterized by attention to detail and a deep understanding of the relationship between buildings and their users.",
-    imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    name: "Daniel Fischer",
-    role: "Project Architect",
-    bio: "Daniel joined NOTO in 2018 after working in Vienna and Copenhagen. He has extensive experience in cultural and public buildings, with a focus on creating inclusive spaces that foster community engagement. His approach combines rigorous technical resolution with poetic spatial qualities.",
-    imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
-  }
+// Fallback static team members with names and photos for overlay
+const staticTeamMembers: { id: number; name: string; url: string }[] = [
+  { id: 1, name: 'Anna Schmidt', url: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+  { id: 2, name: 'Thomas Weber', url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+  { id: 3, name: 'Maria Krause', url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+  { id: 4, name: 'Daniel Fischer', url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }
 ];
 
 const About = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  useEffect(() => {
+    getTeam()
+      .then(data => {
+        const mapped = data.map(m => ({
+          id: m.id,
+          name: m.attributes.name,
+          role: m.attributes.role,
+          bio: m.attributes.bio,
+          photoUrl: getStrapiMedia(m.attributes.photo),
+        }));
+        setTeamMembers(mapped);
+      })
+      .catch(console.error);
+  }, []);
+
+  // Prepare items to display: dynamic team or fallback static
+  const displayItems =
+    teamMembers.length > 0
+      ? teamMembers.map(m => ({ id: m.id, name: m.name, url: m.photoUrl || '' }))
+      : staticTeamMembers;
+  // Limit grid to first four items for a 2x2 layout
+  const gridItems = displayItems.slice(0, 4);
 
   return (
     <main className={`min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
@@ -80,7 +88,7 @@ const About = () => {
           
           <div className="space-y-8">
             <div className="space-y-4">
-              <h3 className="font-helvetica text-lg">Context & Identity</h3>
+              <h3 className="font-helvetica font-light text-lg">Context & Identity</h3>
               <p className="text-noto-gray">
                 We create architecture that responds sensitively to its physical, cultural, and historical context 
                 while establishing its own clear identity. We believe buildings should belong to their place 
@@ -89,7 +97,7 @@ const About = () => {
             </div>
             
             <div className="space-y-4">
-              <h3 className="font-helvetica text-lg">Materiality & Craft</h3>
+              <h3 className="font-helvetica font-light text-lg">Materiality & Craft</h3>
               <p className="text-noto-gray">
                 We value the tangible qualities of architecture—the materials, textures, and details that we 
                 experience directly. We work closely with craftspeople and builders to achieve construction of 
@@ -98,7 +106,7 @@ const About = () => {
             </div>
             
             <div className="space-y-4">
-              <h3 className="font-helvetica text-lg">Sustainability</h3>
+              <h3 className="font-helvetica font-light text-lg">Sustainability</h3>
               <p className="text-noto-gray">
                 Environmental responsibility is fundamental to our practice. We design buildings that minimize 
                 resource consumption through careful orientation, efficient envelopes, and appropriate systems, 
@@ -107,7 +115,7 @@ const About = () => {
             </div>
             
             <div className="space-y-4">
-              <h3 className="font-helvetica text-lg">Functionality</h3>
+              <h3 className="font-helvetica font-light text-lg">Functionality</h3>
               <p className="text-noto-gray">
                 We believe good architecture serves its purpose well. We work to understand the needs and 
                 patterns of those who will use our buildings, designing spaces that function efficiently 
@@ -116,7 +124,7 @@ const About = () => {
             </div>
             
             <div className="space-y-4">
-              <h3 className="font-helvetica text-lg">Collaboration</h3>
+              <h3 className="font-helvetica font-light text-lg">Collaboration</h3>
               <p className="text-noto-gray">
                 Architecture is inherently collaborative. We value the input of clients, consultants, builders, 
                 and users, recognizing that the best solutions emerge through open dialogue and the integration 
@@ -125,7 +133,7 @@ const About = () => {
             </div>
             
             <div className="space-y-4">
-              <h3 className="font-helvetica text-lg">Thoughtful Innovation</h3>
+              <h3 className="font-helvetica font-light text-lg">Thoughtful Innovation</h3>
               <p className="text-noto-gray">
                 We embrace innovation that serves a purpose, whether in construction methods, spatial organization, 
                 or environmental systems. Our approach balances proven solutions with thoughtful exploration of 
@@ -136,29 +144,24 @@ const About = () => {
         </div>
       </section>
       
-      {/* Team */}
+      {/* Team Grid */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="uppercase tracking-wide text-xl md:text-2xl mb-12">Our Team</h2>
-          
-          <div className="space-y-12">
-            {team.map((member, index) => (
-              <div 
-                key={member.name} 
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start animate-fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="aspect-square overflow-hidden bg-noto-lightgray">
-                  <img 
-                    src={member.imageUrl} 
-                    alt={member.name} 
-                    className="w-full h-full object-cover"
+          <div className="grid grid-cols-2 gap-4 md:gap-6">
+            {gridItems.map(item => (
+              <div key={item.id} className="group block">
+                <div className="relative aspect-square overflow-hidden bg-noto-lightgray">
+                  <img
+                    src={item.url}
+                    alt={item.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                </div>
-                <div className="md:col-span-2 space-y-2">
-                  <h3 className="font-helvetica text-lg">{member.name}</h3>
-                  <p className="text-sm text-noto-gray mb-2">{member.role}</p>
-                  <p className="text-noto-gray">{member.bio}</p>
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-end p-6">
+                    <h3 className="text-white font-helvetica font-light text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {item.name}
+                    </h3>
+                  </div>
                 </div>
               </div>
             ))}
